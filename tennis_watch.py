@@ -42,6 +42,11 @@ VENUES = [
         "id": "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a",
         "book_url": "https://clubspark.lta.org.uk/AskeGardens/Booking/BookByDate#?date={date}",
     },
+      {
+        "name": "Clissold Park",
+        "id": "24e84e6c-f529-4cd1-8793-cb0cc106e6e7",
+        "book_url": "https://clubspark.lta.org.uk/ClissoldParkHackney/Booking/BookByDate#?date={date}",
+    },
     {
         "name": "Hackney Downs",
         "id": "3df475ea-0986-403a-9f64-e520e234c73a",
