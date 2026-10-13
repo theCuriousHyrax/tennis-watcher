@@ -144,7 +144,9 @@
     "Court 1|2026-10-14T09:00:00",
     "Court 1|2026-10-14T11:00:00"
   ],
-  "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a|2026-10-15": [],
+  "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a|2026-10-15": [
+    "Court 1|2026-10-15T08:00:00"
+  ],
   "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a|2026-10-16": [],
   "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a|2026-10-17": [],
   "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a|2026-10-18": [],
