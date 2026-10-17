@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Tennis court watcher: polls LTA court availability and sends a Telegram
 message whenever a slot that matches your rules newly appears.
@@ -18,6 +17,7 @@ Your rules (encoded below, all configurable):
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
@@ -42,15 +42,15 @@ VENUES = [
         "id": "6bc2df28-20fd-4bed-a6e6-e6ed2cbf1c5a",
         "book_url": "https://clubspark.lta.org.uk/AskeGardens/Booking/BookByDate#?date={date}",
     },
-      {
-        "name": "Clissold Park",
-        "id": "24e84e6c-f529-4cd1-8793-cb0cc106e6e7",
-        "book_url": "https://clubspark.lta.org.uk/ClissoldParkHackney/Booking/BookByDate#?date={date}",
-    },
     {
         "name": "Hackney Downs",
         "id": "3df475ea-0986-403a-9f64-e520e234c73a",
         "book_url": "https://clubspark.lta.org.uk/HackneyDowns/Booking/BookByDate#?date={date}",
+    },
+    {
+        "name": "Clissold Park",
+        "id": "24e84e6c-f529-4cd1-8793-cb0cc106e6e7",
+        "book_url": "https://clubspark.lta.org.uk/ClissoldParkHackney/Booking/BookByDate#?date={date}",
     },
 ]
 
@@ -138,7 +138,14 @@ def send_telegram(message: str) -> None:
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": message}).encode()
     req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
-    urllib.request.urlopen(req, timeout=15)
+    try:
+        urllib.request.urlopen(req, timeout=15)
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode(errors="replace")
+        print(f"[error] Telegram HTTP {exc.code}: {body}", file=sys.stderr)
+        print(f"[debug] chat_id as stored: {TELEGRAM_CHAT_ID!r} "
+              f"(token set: {bool(TELEGRAM_BOT_TOKEN)}, len {len(TELEGRAM_BOT_TOKEN)})", file=sys.stderr)
+        raise
 
 
 # ------------------------------ main ------------------------------
